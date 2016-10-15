@@ -20,23 +20,21 @@ newState state =
 
 updateMultiples: Cell -> Grid -> Grid
 updateMultiples (n, state, multiples) grid =
-    case state of
-        Clicked ->
-            grid
-                |> List.map
+    let
+        update =
+            (\f ->
+                grid |> List.map
                     (\(num, s, m) ->
                         if num % n == 0 && num /= n && n /= 1 then
-                            (num, s, n :: m)
+                            (num, s, (f n m))
                         else
-                            (num, s, m))
+                            (num, s, m)))
+    in
+    case state of
+        Clicked ->
+            update (\n m -> n :: m)
         Empty ->
-            grid
-                |> List.map
-                    (\(num, s, m) ->
-                        if num % n == 0 then
-                            (num, s, (m |> List.filter (\x -> x /= n)))
-                        else
-                            (num, s, m))
+            update (\n m -> (m |> List.filter (\x -> x /= n)))
 
 isPrime: Int -> Bool
 isPrime n =
