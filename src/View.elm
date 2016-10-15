@@ -34,7 +34,9 @@ root model =
                         in
                         div
                             [ class cls
-                            , onClick (ClickNumber (n, state, m))]
+                            , onClick (ClickNumber (n, state, m))
+                            , title (if List.isEmpty m then "" else (toString m))
+                            ]
                             [ text (toString n)]))]
 
 
